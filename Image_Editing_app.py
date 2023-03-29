@@ -1,19 +1,11 @@
 import streamlit as st
-import cv2
+import opencv as cv2
 from PIL import Image, ImageEnhance
 import numpy as np
 import os
-from flask import Flask
 
 face_cascade=cv2.CascadeClassifier("haarcascade_files/detectors/haarcascade_frontalface_default.xml")
 eye_cascade=cv2.CascadeClassifier("haarcascade_files/detectors/haarcascade_eye.xml")
-
-
-app = Flask(__name__)
-
-
-@app.route('/')
-
 
 def detect_faces(our_image):
     new_img=np.array(our_image.convert("RGB"))
