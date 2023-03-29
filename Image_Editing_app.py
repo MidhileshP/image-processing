@@ -97,3 +97,5 @@ def main_loop():
         clou=Image.open("Aboutfor.jpg")
         st.image(clou)
         st.text("We have a basic understanding on Python and C languages")
+if __name__ == '__main__':
+    main_loop()
