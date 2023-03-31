@@ -24,7 +24,7 @@ def detect_eyes(our_image):
 def cartoonize_image(our_image):
     new_img=np.array(our_image.convert("RGB"))
     img=cv2.GaussianBlur(new_img,(13,13),0)#0 is Standard Deviation and Kernel should be odd
-    canny=cv2.Canny(img,150,250)
+    canny=cv2.Canny(img,50,100)
     return canny
 
 def main_loop():    
