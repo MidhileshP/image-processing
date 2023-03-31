@@ -34,7 +34,7 @@ def main_loop():
     choice=st.sidebar.selectbox("Select Activity",activities)
     if choice=="Detection":
         st.subheader("Detection")
-        image_file=st.file_uploader("Upload Image",type=["jpg","jpeg","png","bmp"])
+        image_file=st.file_uploader("Upload Image",type=["jpg","jpeg","png","bmp","heic"])
         if image_file is not None:
             our_image=Image.open(image_file)
             st.text("Original Image")
