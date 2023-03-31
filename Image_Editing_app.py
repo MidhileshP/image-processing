@@ -28,7 +28,7 @@ def cartoonize_image(our_image):
     return canny
 
 def main_loop():    
-    st.title('Image Editing App')
+    st.title('Image Processing App')
     st.text("Edit your images in a fast and simple way")
     activities=["Detection","About"]
     choice=st.sidebar.selectbox("Select Activity",activities)
