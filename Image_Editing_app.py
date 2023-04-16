@@ -1,20 +1,19 @@
+# Modules
 import pyrebase
 import streamlit as st
 from datetime import datetime
 
-
-
+# Configuration Key
 firebaseConfig = {
   'apiKey': "AIzaSyD2q4XFjnO8Az3pPsZYu7Q7yCUvfW48nTQ",
   'authDomain': "test-firestore-stream-80056.firebaseapp.com",
   'projectId': "test-firestore-stream-80056",
-  'databaseURL':"https://console.firebase.google.com/u/0/project/test-firestore-stream-80056/database/test-firestore-stream-80056-default-rtdb/data/~2F",
+  'databaseURL':"https://test-firestore-stream-80056-default-rtdb.europe-west1.firebasedatabase.app/",
   'storageBucket': "test-firestore-stream-80056.appspot.com",
   'messagingSenderId': "118430717598",
   'appId': "1:118430717598:web:a27bdaceefbbfc967c8d8f",
   'measurementId': "G-W3QHVG3L42"
 }
-
 
 # Firebase Authentication
 firebase = pyrebase.initialize_app(firebaseConfig)
