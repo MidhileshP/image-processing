@@ -1,5 +1,5 @@
 import streamlit as st
-import streamlit_authenticator as stauth
+import streamlit-authenticator as stauth
 hashed_passwords = stauth.Hasher(['abc', 'def']).generate()
 import yaml
 from yaml.loader import SafeLoader
