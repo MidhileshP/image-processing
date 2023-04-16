@@ -1,171 +1,97 @@
-# Modules
-import pyrebase
 import streamlit as st
-from datetime import datetime
+import cv2
+from PIL import Image, ImageEnhance
+import numpy as np
+import os
 
-# Configuration Key
-firebaseConfig = {
-  'apiKey': "AIzaSyD2q4XFjnO8Az3pPsZYu7Q7yCUvfW48nTQ",
-  'authDomain': "test-firestore-stream-80056.firebaseapp.com",
-  'projectId': "test-firestore-stream-80056",
-  'databaseURL':"https://test-firestore-stream-80056-default-rtdb.europe-west1.firebasedatabase.app/",
-  'storageBucket': "test-firestore-stream-80056.appspot.com",
-  'messagingSenderId': "118430717598",
-  'appId': "1:118430717598:web:a27bdaceefbbfc967c8d8f",
-  'measurementId': "G-W3QHVG3L42"
-}
+def detect_faces(our_image):
+    new_img=np.array(our_image.convert("RGB"))
+    faces=face_cascade.detectMultiScale(new_img,1.1,6)
+    for(x,y,w,h) in faces:
+        cv2.rectangle(new_img,(x,y),(x+w,y+h),(255,0,0),2)
+    return new_img,faces 
 
-# Firebase Authentication
-firebase = pyrebase.initialize_app(firebaseConfig)
-auth = firebase.auth()
+def detect_eyes(our_image):
+    new_img=np.array(our_image.convert("RGB"))
+    eyes=eye_cascade.detectMultiScale(new_img,1.3,6)
+    for(x,y,w,h) in eyes:
+        cv2.rectangle(new_img,(x,y),(x+w,y+h),(0,255,0),2)
+    return new_img
 
-# Database
-db = firebase.database()
-storage = firebase.storage()
-st.sidebar.title("Our community app")
+def cartoonize_image(our_image):
+    new_img=np.array(our_image.convert("RGB"))
+    img=cv2.GaussianBlur(new_img,(13,13),0)#0 is Standard Deviation and Kernel should be odd
+    canny=cv2.Canny(img,100,150)
+    return canny
 
-# Authentication
-choice = st.sidebar.selectbox('login/Signup', ['Login', 'Sign up'])
-
-# Obtain User Input for email and password
-email = st.sidebar.text_input('Please enter your email address')
-password = st.sidebar.text_input('Please enter your password',type = 'password')
-
-# App 
-
-# Sign up Block
-if choice == 'Sign up':
-    handle = st.sidebar.text_input(
-        'Please input your app handle name', value='Default')
-    submit = st.sidebar.button('Create my account')
-
-    if submit:
-        user = auth.create_user_with_email_and_password(email, password)
-        st.success('Your account is created suceesfully!')
-        st.balloons()
-        # Sign in
-        user = auth.sign_in_with_email_and_password(email, password)
-        db.child(user['localId']).child("Handle").set(handle)
-        db.child(user['localId']).child("ID").set(user['localId'])
-        st.title('Welcome' + handle)
-        st.info('Login via login drop down selection')
-
-# Login Block
-if choice == 'Login':
-    login = st.sidebar.checkbox('Login')
-    if login:
-        user = auth.sign_in_with_email_and_password(email,password)
-        st.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
-        bio = st.radio('Jump to',['Home','Workplace Feeds', 'Settings'])
+    
+st.title('Image Editing App')
+st.text("Edit your images in a fast and simple way")
+activities=["Detection","About"]
+choice=st.sidebar.selectbox("Select Activity",activities)
+if choice=="Detection":
+    st.subheader("Detection")
+    image_file=st.file_uploader("Upload Image",type=["jpg","jpeg","png"])
+    if image_file is not None:
+        our_image=Image.open(image_file)
+        st.text("Original Image")
+        st.image(our_image)
         
-# SETTINGS PAGE 
-        if bio == 'Settings':  
-            # CHECK FOR IMAGE
-            nImage = db.child(user['localId']).child("Image").get().val()    
-            # IMAGE FOUND     
-            if nImage is not None:
-                # We plan to store all our image under the child image
-                Image = db.child(user['localId']).child("Image").get()
-                for img in Image.each():
-                    img_choice = img.val()
-                    #st.write(img_choice)
-                st.image(img_choice)
-                exp = st.beta_expander('Change Bio and Image')  
-                # User plan to change profile picture  
-                with exp:
-                    newImgPath = st.text_input('Enter full path of your profile imgae')
-                    upload_new = st.button('Upload')
-                    if upload_new:
-                        uid = user['localId']
-                        fireb_upload = storage.child(uid).put(newImgPath,user['idToken'])
-                        a_imgdata_url = storage.child(uid).get_url(fireb_upload['downloadTokens']) 
-                        db.child(user['localId']).child("Image").push(a_imgdata_url)
-                        st.success('Success!')           
-            # IF THERE IS NO IMAGE
-            else:    
-                st.info("No profile picture yet")
-                newImgPath = st.text_input('Enter full path of your profile image')
-                upload_new = st.button('Upload')
-                if upload_new:
-                    uid = user['localId']
-                    # Stored Initated Bucket in Firebase
-                    fireb_upload = storage.child(uid).put(newImgPath,user['idToken'])
-                    # Get the url for easy access
-                    a_imgdata_url = storage.child(uid).get_url(fireb_upload['downloadTokens']) 
-                    # Put it in our real time database
-                    db.child(user['localId']).child("Image").push(a_imgdata_url)
- # HOME PAGE
-        elif bio == 'Home':
-            col1, col2 = st.beta_columns(2)
-            
-            # col for Profile picture
-            with col1:
-                nImage = db.child(user['localId']).child("Image").get().val()         
-                if nImage is not None:
-                    val = db.child(user['localId']).child("Image").get()
-                    for img in val.each():
-                        img_choice = img.val()
-                    st.image(img_choice,use_column_width=True)
-                else:
-                    st.info("No profile picture yet. Go to Edit Profile and choose one!")
-                
-                post = st.text_input("Let's share my current mood as a post!",max_chars = 100)
-                add_post = st.button('Share Posts')
-            if add_post:   
-                now = datetime.now()
-                dt_string = now.strftime("%d/%m/%Y %H:%M:%S")              
-                post = {'Post:' : post,
-                        'Timestamp' : dt_string}                           
-                results = db.child(user['localId']).child("Posts").push(post)
-                st.balloons()
-
-            # This coloumn for the post Display
-            with col2:
-                
-                all_posts = db.child(user['localId']).child("Posts").get()
-                if all_posts.val() is not None:    
-                    for Posts in reversed(all_posts.each()):
-                            #st.write(Posts.key()) # Morty
-                            st.code(Posts.val(),language = '') 
-   # WORKPLACE FEED PAGE
+        enhance_type=st.sidebar.radio("Enhance type", ["Original-Compressed","Gray-Scale","Contrast","Brightness","Blurring","Sharpness"])
+        if enhance_type=="Original-Compressed":
+            st.image(our_image,width=300)
+        elif enhance_type=="Gray-Scale":
+            img=np.array(our_image.convert("RGB"))
+            gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            st.text("Gray-Scaled Image")
+            st.image(gray)
+        elif enhance_type=="Contrast":
+            rate=st.sidebar.slider("Contrast",0.1,6.0)#Use only float numbers
+            enhancer=ImageEnhance.Contrast(our_image)
+            enhanced_img=enhancer.enhance(rate)
+            st.text("Contrasted Image")
+            st.image(enhanced_img)
+        elif enhance_type=="Brightness":
+            rate=st.sidebar.slider("Brightness",0.1,10.0)
+            enhancer=ImageEnhance.Brightness(our_image)
+            brighted_img=enhancer.enhance(rate)
+            st.text("Brighted Image")
+            st.image(brighted_img)
+        elif enhance_type=="Blurring":
+            rate=st.sidebar.slider("Blur",0.1,10.0)
+            blurred_img=cv2.GaussianBlur(np.array(our_image),(17,15),rate)#Use only odd numbers
+            st.text("Blurred Image")
+            st.image(blurred_img)
+        elif enhance_type=="Sharpness":
+            rate=st.sidebar.slider("Sharpness",0.1,10.0)
+            enhancer=ImageEnhance.Sharpness(our_image)
+            sharpened_img=enhancer.enhance(rate)
+            st.text("Sharpened Image")
+            st.image(sharpened_img)
         else:
-            all_users = db.get()
-            res = []
-            # Store all the users handle name
-            for users_handle in all_users.each():
-                k = users_handle.val()["Handle"]
-                res.append(k)
-            # Total users
-            nl = len(res)
-            st.write('Total users here: '+ str(nl)) 
-            
-            # Allow the user to choose which other user he/she wants to see 
-            choice = st.selectbox('My Collegues',res)
-            push = st.button('Show Profile')
-            
-            # Show the choosen Profile
-            if push:
-                for users_handle in all_users.each():
-                    k = users_handle.val()["Handle"]
-                    # 
-                    if k == choice:
-                        lid = users_handle.val()["ID"]
-                        
-                        handlename = db.child(lid).child("Handle").get().val()             
-                        
-                        st.markdown(handlename, unsafe_allow_html=True)
-                        
-                        nImage = db.child(lid).child("Image").get().val()         
-                        if nImage is not None:
-                            val = db.child(lid).child("Image").get()
-                            for img in val.each():
-                                img_choice = img.val()
-                                st.image(img_choice)
-                        else:
-                            st.info("No profile picture yet. Go to Edit Profile and choose one!")
- 
-                        # All posts
-                        all_posts = db.child(lid).child("Posts").get()
-                        if all_posts.val() is not None:    
-                            for Posts in reversed(all_posts.each()):
-                                st.code(Posts.val(),language = '')
+            st.image(our_image)
+    tasks=["Faces","Eyes","Cartoonize"]
+    feature_choice=st.sidebar.selectbox("Find features",tasks)
+    if st.button("Process"):
+        if feature_choice=="Faces":
+            result_img,result_faces = detect_faces(our_image)
+            st.image(result_img)
+            st.success("Found {} faces".format(len(result_faces)))
+        elif feature_choice=="Eyes":
+            result_img = detect_eyes(our_image)
+            st.image(result_img)
+        elif feature_choice=="Cartoonize":
+            result_img = cartoonize_image(our_image)
+            st.image(result_img)
+        
+        
+        
+        
+        
+elif choice=="About":
+    st.subheader("About the developer")
+    st.markdown("Built with streamlit by [Team1]")
+    st.text("Our team built this as a Mini-Project for Cloud Computing")
+    clou=Image.open("Aboutfor.jpg")
+    st.image(clou)
+    st.text("We have a basic understanding on Python and C languages")
