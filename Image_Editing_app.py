@@ -3,6 +3,7 @@ import cv2
 from PIL import Image, ImageEnhance
 import numpy as np
 import os
+
 def detect_faces(our_image):
     new_img=np.array(our_image.convert("RGB"))
     faces=face_cascade.detectMultiScale(new_img,1.1,6)
@@ -23,35 +24,14 @@ def cartoonize_image(our_image):
     canny=cv2.Canny(img,100,150)
     return canny
 
-
-# Create two columns
-left_column, right_column = st.beta_columns([1, 2])
-
-# Form to allow users to create an account or sign in
-with left_column:
-    st.subheader("Login or Create an Account")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    create_account = st.button("Create Account")
-    login = st.button("Login")
-
-    if create_account:
-        # Code to create a new account goes here
-        st.success("Account created!")
-
-    if login:
-        # Code to authenticate user and log them in goes here
-        st.success("You have successfully logged in!")
-
-# Image editing app
-with right_column:
-    st.title('Image Editing App')
-    st.text("Edit your images in a fast and simple way")
-    activities=["Detection","About"]
-    choice=st.sidebar.selectbox("Select Activity",activities)
-    if choice=="Detection":
-        st.subheader("Detection")
-        image_file=st.file_uploader("Upload Image",type=["jpg","jpeg","png"])
+    
+st.title('Image Editing App')
+st.text("Edit your images in a fast and simple way")
+activities=["Detection","About"]
+choice=st.sidebar.selectbox("Select Activity",activities)
+if choice=="Detection":
+    st.subheader("Detection")
+    image_file=st.file_uploader("Upload Image",type=["jpg","jpeg","png"])
     if image_file is not None:
         our_image=Image.open(image_file)
         st.text("Original Image")
@@ -90,7 +70,6 @@ with right_column:
             st.image(sharpened_img)
         else:
             st.image(our_image)
-        
     tasks=["Faces","Eyes","Cartoonize"]
     feature_choice=st.sidebar.selectbox("Find features",tasks)
     if st.button("Process"):
@@ -109,13 +88,10 @@ with right_column:
         
         
         
-    elif choice=="About":
-        st.subheader("About the developer")
-        st.markdown("Built with streamlit by [Team1]")
-        st.text("Our team built this as a Mini-Project for Cloud Computing")
-        clou=Image.open("Aboutfor.jpg")
-        st.image(clou)
-        st.text("We have a basic understanding on Python and C languages")
-
-
-    # Rest of the code for the image editing app goes here
+elif choice=="About":
+    st.subheader("About the developer")
+    st.markdown("Built with streamlit by [Team1]")
+    st.text("Our team built this as a Mini-Project for Cloud Computing")
+    clou=Image.open("Aboutfor.jpg")
+    st.image(clou)
+    st.text("We have a basic understanding on Python and C languages")
