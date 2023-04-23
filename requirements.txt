@@ -1,4 +1,4 @@
 numpy
 opencv-python-headless
 streamlit
-google-cloud-firestore
+deta==2.0
