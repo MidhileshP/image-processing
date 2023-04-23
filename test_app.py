@@ -1,4 +1,4 @@
-import pyrebase
+from google.cloud import firestore
 import streamlit as st
 from datetime import datetime
 
@@ -17,7 +17,7 @@ firebaseConfig = {
 
 
 # Firebase Authentication
-firebase = pyrebase.initialize_app(firebaseConfig)
+firebase = firestore.initialize_app(firebaseConfig)
 auth = firebase.auth()
 
 # Database
