@@ -60,7 +60,7 @@ if choice == "Detection":
         st.text("Enhanced Image")
         st.image(enhanced_img)
 
-    tasks = ["Cartoonize,Lining"]
+    tasks = ["Cartoonize","Lining"]
     feature_choice = st.sidebar.selectbox("Find features", tasks)
     if st.button("Process"):
         if feature_choice == "Cartoonize":
