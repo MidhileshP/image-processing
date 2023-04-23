@@ -12,12 +12,11 @@ def cartoonize_image(our_image):
     canny=cv2.Canny(img,100,150)
     return canny
 
-# Connect to Deta Base with your Data Key
 deta = Deta(st.secrets["data_key"])
 
 # Create a new database "example-db"
 # If you need a new database, just use another name.
-db = deta.Base("users")
+db = deta.Base("example-db")
 
 
 choice = st.sidebar.selectbox('login/Signup', ['Login', 'Sign up'])
