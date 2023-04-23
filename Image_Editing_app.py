@@ -68,7 +68,7 @@ if choice == "Detection":
                 label="Download",
                 data=data,
                 file_name="enhanced_image.jpg",
-                mime="image/png",
+                mime="image/jpg",
             )
         os.remove(tmp_filename)
 
@@ -90,7 +90,7 @@ if choice == "Detection":
                 label="Download",
                 data=data,
                 file_name="featured_image.jpg",
-                mime="image/png",
+                mime="image/jpg",
             )
         os.remove(tmp_filename)
 
