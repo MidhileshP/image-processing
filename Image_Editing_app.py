@@ -22,7 +22,7 @@ if choice=="Detection":
         st.text("Original Image")
         st.image(our_image)
         
-        enhance_type=st.sidebar.radio("Enhance type", multiselect["Original-Compressed","Gray-Scale","Contrast","Brightness","Blurring","Sharpness"])
+        enhance_type=st.sidebar.radio("Enhance type", st.multiselect(["Original-Compressed","Gray-Scale","Contrast","Brightness","Blurring","Sharpness"]))
         if enhance_type=="Original-Compressed":
             st.image(our_image,width=300)
         elif enhance_type=="Gray-Scale":
