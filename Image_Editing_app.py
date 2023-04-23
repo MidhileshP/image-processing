@@ -66,6 +66,6 @@ if choice == "Detection":
         if feature_choice == "Cartoonize":
             result_img = cartoonize_image(our_image)
             st.image(result_img)
-        elif feature_choice == "Lines":
+        elif feature_choice == "Lining":
             result_img = cannanize_image(our_image)
             st.image(result_img)
