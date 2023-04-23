@@ -61,23 +61,13 @@ if choice == "Detection":
         st.text("Enhanced Image")
         st.image(enhanced_img)
         if st.button("Download Enhanced Image"):
-    # Create an in-memory stream to hold the image data
-            img_io = BytesIO()
-
-            # Save the enhanced image to the stream in JPG format
-            enhanced_img.save(img_io, format="JPEG")
-
-            # Set the stream position to the beginning
-            img_io.seek(0)
-
-            # Create a download button for the image file
-            st.download_button(
-                label="Download Enhanced Image",
-                data=img_io,
-                file_name="enhanced_image.jpg",
-                mime="image/jpeg"
-            )
-
+            tmp_filename = "enhanced_image.jpg"
+            enhanced_image.save(tmp_filename, format="JPG")
+            with open(tmp_filename, "rb") as f:
+                bytes_data = f.read()
+            b64_data = base64.b64encode(bytes_data).decode()
+            href = f"<a href='data:file/jpg;base64,{b64_data}' download='enhanced_image.jpg'>Download Enhanced Image</a>"
+            st.markdown(href, unsafe_allow_html=True)
 
     tasks = ["Cartoonize","Lining"]
     feature_choice = st.sidebar.selectbox("Find features", tasks)
