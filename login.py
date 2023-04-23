@@ -37,7 +37,6 @@ if choice == 'Login':
         password=st.number_input("password")
         submitted = st.form_submit_button("Login")
         if submitted:
-            if((email==db.email) and (password==db.password)):
                 st.title('Image Editing App')
                 st.text("Edit your images in a fast and simple way")
                 activities=["Detection","About"]
@@ -96,6 +95,5 @@ if choice == 'Login':
                     clou=Image.open("Aboutfor.jpg")
                     st.image(clou)
                     st.text("We have a basic understanding on Python and C languages")
-            else:
-                st.success("Invalid Username/Password")
+            
 
