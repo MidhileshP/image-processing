@@ -48,7 +48,7 @@ choice = st.sidebar.selectbox("Select Activity", activities)
 
 if choice == "Detection":
     st.subheader("Detection")
-    image_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
+    image_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png","heic"])
 
     if image_file is not None:
         our_image = Image.open(image_file)
