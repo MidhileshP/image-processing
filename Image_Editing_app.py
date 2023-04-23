@@ -60,13 +60,13 @@ if choice == "Detection":
         st.text("Enhanced Image")
         st.image(enhanced_img)
         with open(enhanced_img, "rb") as file:
-    btn = st.download_button(
-            label="Download image",
-            data=file,
-            file_name="flower.png",
-            mime="image/png"
-          )
-            
+            btn = st.download_button(
+                    label="Download image",
+                    data=file,
+                    file_name="flower.png",
+                    mime="image/png"
+                  )
+
 
     tasks = ["Cartoonize","Lining"]
     feature_choice = st.sidebar.selectbox("Find features", tasks)
