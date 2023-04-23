@@ -23,34 +23,34 @@ if choice=="Detection":
         st.image(our_image)
         
         enhance_type=st.sidebar.multiselect("Enhance type",["Original-Compressed","Gray-Scale","Contrast","Brightness","Blurring","Sharpness"])
-        if enhance_type=="Original-Compressed":
-            st.image(our_image,width=300)
-        elif enhance_type=="Gray-Scale":
-            img=np.array(our_image.convert("RGB"))
-            gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+        if "Original-Compressed" in enhance_type:
+            st.image(our_image, width=300)
+        if "Gray-Scale" in enhance_type:
+            img = np.array(our_image.convert("RGB"))
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             st.text("Gray-Scaled Image")
             st.image(gray)
-        elif enhance_type=="Contrast":
-            rate=st.sidebar.slider("Contrast",0.1,6.0)#Use only float numbers
-            enhancer=ImageEnhance.Contrast(our_image)
-            enhanced_img=enhancer.enhance(rate)
+        if "Contrast" in enhance_type:
+            rate = st.sidebar.slider("Contrast", 0.1, 6.0)  # Use only float numbers
+            enhancer = ImageEnhance.Contrast(our_image)
+            enhanced_img = enhancer.enhance(rate)
             st.text("Contrasted Image")
             st.image(enhanced_img)
-        elif enhance_type=="Brightness":
-            rate=st.sidebar.slider("Brightness",0.1,10.0)
-            enhancer=ImageEnhance.Brightness(our_image)
-            brighted_img=enhancer.enhance(rate)
+        if "Brightness" in enhance_type:
+            rate = st.sidebar.slider("Brightness", 0.1, 10.0)
+            enhancer = ImageEnhance.Brightness(our_image)
+            brighted_img = enhancer.enhance(rate)
             st.text("Brighted Image")
             st.image(brighted_img)
-        elif enhance_type=="Blurring":
-            rate=st.sidebar.slider("Blur",0.1,10.0)
-            blurred_img=cv2.GaussianBlur(np.array(our_image),(17,15),rate)#Use only odd numbers
+        if "Blurring" in enhance_type:
+            rate = st.sidebar.slider("Blur", 0.1, 10.0)
+            blurred_img = cv2.GaussianBlur(np.array(our_image), (17, 15), rate)  # Use only odd numbers
             st.text("Blurred Image")
             st.image(blurred_img)
-        elif enhance_type=="Sharpness":
-            rate=st.sidebar.slider("Sharpness",0.1,10.0)
-            enhancer=ImageEnhance.Sharpness(our_image)
-            sharpened_img=enhancer.enhance(rate)
+        if "Sharpness" in enhance_type:
+            rate = st.sidebar.slider("Sharpness", 0.1, 10.0)
+            enhancer = ImageEnhance.Sharpness(our_image)
+            sharpened_img = enhancer.enhance(rate)
             st.text("Sharpened Image")
             st.image(sharpened_img)
         else:
