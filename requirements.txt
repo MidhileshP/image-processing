@@ -1,4 +1,4 @@
 numpy
 opencv-python-headless
 streamlit
-deta==2.0
+deta==1.1.0
