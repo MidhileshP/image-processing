@@ -3,6 +3,7 @@ import cv2
 from PIL import Image, ImageEnhance
 import numpy as np
 import os
+from io import BytesIO
 
 
 def apply_enhancements(our_image, enhance_type):
@@ -60,16 +61,23 @@ if choice == "Detection":
         st.text("Enhanced Image")
         st.image(enhanced_img)
         if st.button("Download Enhanced Image"):
-            tmp_filename = "enhanced_image.jpg"
-            enhanced_image.save(tmp_filename, format="JPG")
-            with open(tmp_filename, "rb") as file:
-                data = file.read()
-                st.download_button(
-                    label="Download",
-                    data=data,
-                    file_name="enhanced_image.jpg",
-                    mime="image/jpg",
-                )
+    # Create an in-memory stream to hold the image data
+            img_io = BytesIO()
+
+            # Save the enhanced image to the stream in JPG format
+            enhanced_img.save(img_io, format="JPEG")
+
+            # Set the stream position to the beginning
+            img_io.seek(0)
+
+            # Create a download button for the image file
+            st.download_button(
+                label="Download Enhanced Image",
+                data=img_io,
+                file_name="enhanced_image.jpg",
+                mime="image/jpeg"
+            )
+
 
     tasks = ["Cartoonize","Lining"]
     feature_choice = st.sidebar.selectbox("Find features", tasks)
