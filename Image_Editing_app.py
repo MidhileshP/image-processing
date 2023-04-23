@@ -71,7 +71,12 @@ if choice == "Detection":
         elif feature_choice == "Lining":
             result_img = cannanize_image(our_image)
             st.image(result_img)
-        st.download_button(label='Download Featured Image',data=result_img,file_name='Featured Image.jpg')
+        img = Image.open(result_img)            
+        btn = st.download_button(
+              label="Download image",
+              data=img,
+              file_name="imagename.png",
+              mime="image/png")
 
 elif choice=="About":
     st.subheader("About the developer")
