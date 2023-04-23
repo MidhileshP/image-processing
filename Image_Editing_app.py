@@ -74,5 +74,5 @@ if choice == "Detection":
             st.image(result_img)
         if st.button("Download Featured Image"):
         tmp_filename1 = "featureded_image.jpg"
-        enhanced_image.save(tmp_filename1, format="JPG")
+        result_img.save(tmp_filename1, format="JPG")
 
