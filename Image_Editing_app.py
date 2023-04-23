@@ -59,16 +59,15 @@ if choice == "Detection":
         enhanced_img = apply_enhancements(our_image, enhance_type)
         st.text("Enhanced Image")
         st.image(enhanced_img)
-        download_button(enhanced_img, "Image.png", "Download")
 
 
-    tasks = ["Cartoonize","Lining"]
+    tasks = ["Cartoonize","Edging"]
     feature_choice = st.sidebar.selectbox("Find features", tasks)
     if st.button("Process"):
         if feature_choice == "Cartoonize":
             result_img = cartoonize_image(our_image)
             st.image(result_img)
-        elif feature_choice == "Lining":
+        elif feature_choice == "Edging":
             result_img = cannanize_image(our_image)
             st.image(result_img)
          
