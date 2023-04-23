@@ -59,6 +59,13 @@ if choice == "Detection":
         enhanced_img = apply_enhancements(our_image, enhance_type)
         st.text("Enhanced Image")
         st.image(enhanced_img)
+        with open(enhanced_img, "rb") as file:
+    btn = st.download_button(
+            label="Download image",
+            data=file,
+            file_name="flower.png",
+            mime="image/png"
+          )
             
 
     tasks = ["Cartoonize","Lining"]
@@ -70,12 +77,7 @@ if choice == "Detection":
         elif feature_choice == "Lining":
             result_img = cannanize_image(our_image)
             st.image(result_img)
-        img = Image.open(result_img)            
-        btn = st.download_button(
-              label="Download image",
-              data=img,
-              file_name="imagename.png",
-              mime="image/png")
+         
 
 elif choice=="About":
     st.subheader("About the developer")
