@@ -27,12 +27,19 @@ def apply_enhancements(our_image, enhance_type):
     return img
 
 
-def cartoonize_image(our_image):
+def cannanize_image(our_image):
     new_img = np.array(our_image.convert("RGB"))
     img = cv2.GaussianBlur(new_img, (13, 13), 0)  # 0 is Standard Deviation and Kernel should be odd
     canny = cv2.Canny(img, 100, 150)
     return canny
-
+def cartoonize_image(our_image):
+    img = np.array(our_image.convert('RGB'))
+    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    blur = cv2.medianBlur(gray, 5)
+    edges = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 9)
+    color = cv2.bilateralFilter(img, 9, 300, 300)
+    cartoon = cv2.bitwise_and(color, color, mask=edges)
+    return cartoon
 
 st.title('Image Editing App')
 st.text("Edit your images in a fast and simple way")
@@ -53,9 +60,12 @@ if choice == "Detection":
         st.text("Enhanced Image")
         st.image(enhanced_img)
 
-    tasks = ["Cartoonize"]
+    tasks = ["Cartoonize,Lining"]
     feature_choice = st.sidebar.selectbox("Find features", tasks)
     if st.button("Process"):
         if feature_choice == "Cartoonize":
             result_img = cartoonize_image(enhanced_img)
+            st.image(result_img)
+        elif feature_choice == "Lines":
+            result_img = Cannanize_image(enhanced_img)
             st.image(result_img)
