@@ -76,3 +76,10 @@ if choice == "Detection":
             tmp_filename1 = "featureded_image.jpg"
             result_img.save(tmp_filename1, format="JPG")
 
+elif choice=="About":
+    st.subheader("About the developer")
+    st.markdown("Built with streamlit by [Team1]")
+    st.text("Our team built this as a Mini-Project for Cloud Computing")
+    clou=Image.open("Aboutfor.jpg")
+    st.image(clou)
+    st.text("We have a basic understanding on Python and C languages")
