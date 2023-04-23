@@ -59,13 +59,7 @@ if choice == "Detection":
         enhanced_img = apply_enhancements(our_image, enhance_type)
         st.text("Enhanced Image")
         st.image(enhanced_img)
-        with open(enhanced_img, "rb") as file:
-            btn = st.download_button(
-                    label="Download image",
-                    data=file,
-                    file_name="flower.png",
-                    mime="image/png"
-                  )
+        download_button(enhanced_img, "Image.png", "Download")
 
 
     tasks = ["Cartoonize","Lining"]
