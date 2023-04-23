@@ -48,8 +48,7 @@ if choice == "Detection":
         st.text("Original Image")
         st.image(our_image)
 
-        enhance_type = st.sidebar.multiselect("Enhance type",
-                                              ["Original-Compressed", "Gray-Scale", "Contrast", "Brightness", "Blurring", "Sharpness"])
+        enhance_type = st.sidebar.multiselect("Enhance type",["Original-Compressed", "Gray-Scale", "Contrast", "Brightness", "Blurring", "Sharpness"])
         enhanced_img = apply_enhancements(our_image, enhance_type)
         st.text("Enhanced Image")
         st.image(enhanced_img)
