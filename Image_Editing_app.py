@@ -5,7 +5,6 @@ import numpy as np
 import os
 from io import BytesIO
 
-
 def apply_enhancements(our_image, enhance_type):
     img = np.array(our_image.convert("RGB"))
     if "Gray-Scale" in enhance_type:
@@ -60,14 +59,8 @@ if choice == "Detection":
         enhanced_img = apply_enhancements(our_image, enhance_type)
         st.text("Enhanced Image")
         st.image(enhanced_img)
-        if st.button("Download Enhanced Image"):
-            tmp_filename = "enhanced_image.jpg"
-            enhanced_image.save(tmp_filename, format="JPG")
-            with open(tmp_filename, "rb") as f:
-                bytes_data = f.read()
-            b64_data = base64.b64encode(bytes_data).decode()
-            href = f"<a href='data:file/jpg;base64,{b64_data}' download='enhanced_image.jpg'>Download Enhanced Image</a>"
-            st.markdown(href, unsafe_allow_html=True)
+        st.download_button(label='Download Enhanced Image',data=enhanced_img,file_name='Enhanced Image.jpg')
+            
 
     tasks = ["Cartoonize","Lining"]
     feature_choice = st.sidebar.selectbox("Find features", tasks)
@@ -78,17 +71,7 @@ if choice == "Detection":
         elif feature_choice == "Lining":
             result_img = cannanize_image(our_image)
             st.image(result_img)
-        if st.button("Download Featured Image"):
-            tmp_filename1 = "featureded_image.jpg"
-            result_img.save(tmp_filename1, format="JPG")
-            with open(tmp_filename1, "rb") as file:
-                data = file.read()
-                st.download_button(
-                    label="Download",
-                    data=data,
-                    file_name="featured_image.jpg",
-                    mime="image/jpg",
-                )
+        st.download_button(label='Download Featured Image',data=result_img,file_name='Featured Image.jpg')
 
 elif choice=="About":
     st.subheader("About the developer")
