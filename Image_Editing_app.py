@@ -62,15 +62,6 @@ if choice == "Detection":
         if st.button("Download Enhanced Image"):
         tmp_filename = "enhanced_image.jpg"
         enhanced_image.save(tmp_filename, format="JPG")
-        with open(tmp_filename, "rb") as file:
-            data = file.read()
-            st.download_button(
-                label="Download",
-                data=data,
-                file_name="enhanced_image.jpg",
-                mime="image/jpg",
-            )
-        os.remove(tmp_filename)
 
     tasks = ["Cartoonize","Lining"]
     feature_choice = st.sidebar.selectbox("Find features", tasks)
@@ -82,15 +73,6 @@ if choice == "Detection":
             result_img = cannanize_image(our_image)
             st.image(result_img)
         if st.button("Download Featured Image"):
-        tmp_filename = "featureded_image.jpg"
-        enhanced_image.save(tmp_filename, format="JPG")
-        with open(tmp_filename, "rb") as file:
-            data = file.read()
-            st.download_button(
-                label="Download",
-                data=data,
-                file_name="featured_image.jpg",
-                mime="image/jpg",
-            )
-        os.remove(tmp_filename)
+        tmp_filename1 = "featureded_image.jpg"
+        enhanced_image.save(tmp_filename1, format="JPG")
 
