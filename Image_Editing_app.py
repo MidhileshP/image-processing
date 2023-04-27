@@ -84,7 +84,8 @@ if choice == "Detection":
 elif choice=="About":
     st.subheader("About the developer")
     st.markdown("Built with streamlit by")
-    st.text("""                         Midhilesh
+    st.text("""                         
+                                        Midhilesh
                                         Revanth
                                         Pradeep
                                         Deepak""")
