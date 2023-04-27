@@ -83,8 +83,27 @@ if choice == "Detection":
 
 elif choice=="About":
     st.subheader("About the developer")
-    st.markdown("Built with streamlit by [Team1]")
-    st.text("Our team built this as a Mini-Project for Cloud Computing")
+    st.markdown("Built with streamlit by")
+    st.markdown("                        Midhilesh")
+    st.markdown("                        Revanth")
+    st.markdown("                        Pradeep")
+    st.markdown("                        Deepak")
+    st.text("Our team built this to make the Image Editing for Photographers Easier")
+    st.text("Our team built this to make the Image Editing for Photographers Easier")
     clou=Image.open("Aboutfor.jpg")
     st.image(clou)
-    st.text("We have a basic understanding on Python and C languages")
+    st.text("We used Python for creating this website")
+    st.text("""
+            Here we added many editing options like
+            Gray-Scaling, Contrast, Brightness, Sharpness, etc.
+            This website is very to handle.
+            All you have to do is upload the image you want to edit and 💥
+            It just happens like magic 🪄
+    """
+    )
+    st.title("Method to deploy")
+    st.text("""
+            First, we created the code and saved it in github
+            Next,We created a account in streamlit community cloud and linked it with our github account
+            Finally, Hola we have our website
+    """)
