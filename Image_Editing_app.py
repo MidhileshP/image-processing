@@ -104,7 +104,7 @@ elif choice=="About":
     """
     )
     st.subheader("Method to deploy")
-    st.markdown("""
+    st.text("""
             First, we created the code and saved it in github
             Next,We created a account in streamlit community cloud and linked it with our github account
             Finally, Hola we have our website
