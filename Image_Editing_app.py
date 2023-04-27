@@ -88,9 +88,11 @@ elif choice=="About":
     st.markdown("                        Revanth")
     st.markdown("                        Pradeep")
     st.markdown("                        Deepak")
-    st.text("Our team built this to make the Image Editing for Photographers Easier")
-    st.text("Our team built this to make the Image Editing for Photographers Easier")
+    st.text("Having trouble with choosing apps for image editing or having trouble with editing images......")
     clou=Image.open("Aboutfor.jpg")
+    st.image(clou)
+    st.text("Don't worry! Here we are to help you")    
+    st.text("Our team built this to make the Image Editing for Photographers Easier")
     st.image(clou)
     st.text("We used Python for creating this website")
     st.text("""
