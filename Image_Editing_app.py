@@ -103,8 +103,8 @@ elif choice=="About":
             It just happens like magic 🪄
     """
     )
-    st.title("Method to deploy")
-    st.text("""
+    st.subheader("Method to deploy")
+    st.markdown("""
             First, we created the code and saved it in github
             Next,We created a account in streamlit community cloud and linked it with our github account
             Finally, Hola we have our website
