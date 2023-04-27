@@ -17,13 +17,22 @@ def apply_enhancements(our_image, enhance_type):
         rate = st.sidebar.slider("Brightness", 0.1, 10.0)
         enhancer = ImageEnhance.Brightness(Image.fromarray(img))
         img = np.array(enhancer.enhance(rate))
-    if "Blurring" in enhance_type:
-        rate = st.sidebar.slider("Blur", 0.1, 10.0)
-        img = cv2.GaussianBlur(img, (17, 15), rate)  # Use only odd numbers
     if "Sharpness" in enhance_type:
         rate = st.sidebar.slider("Sharpness", 0.1, 10.0)
         enhancer = ImageEnhance.Sharpness(Image.fromarray(img))
         img = np.array(enhancer.enhance(rate))
+    if "Shadow & Blur" in enhance_type:
+        alpha = st.sidebar.slider("Shadow intensity", 1.0, 7.0)
+        kernel_size = st.sidebar.slider("Blur", 3, 21, step=2)
+        kernel = np.zeros((kernel_size, kernel_size), np.float32)
+        kernel.fill(1.0 / (kernel_size * kernel_size))
+        shadow = cv2.filter2D(img, -1, kernel)
+        img = cv2.addWeighted(img, 1 - alpha, shadow, alpha, 0)
+    if "Rotate" in enhance_type:
+        angle = st.sidebar.slider("Rotation angle",0, 180)
+        rows, cols, _ = img.shape
+        M = cv2.getRotationMatrix2D((cols/2, rows/2), angle, 1)
+        img = cv2.warpAffine(img, M, (cols, rows))
     return img
 
 
@@ -55,7 +64,7 @@ if choice == "Detection":
         st.text("Original Image")
         st.image(our_image)
 
-        enhance_type = st.sidebar.multiselect("Enhance type",["Original-Compressed", "Gray-Scale", "Contrast", "Brightness", "Blurring", "Sharpness"])
+        enhance_type = st.sidebar.multiselect("Enhance type",["Original-Compressed", "Gray-Scale", "Contrast", "Brightness", "Sharpness", "Rotate", "Shadow & Blur"])
         enhanced_img = apply_enhancements(our_image, enhance_type)
         st.text("Enhanced Image")
         st.image(enhanced_img)
