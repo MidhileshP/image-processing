@@ -50,7 +50,7 @@ def cartoonize_image(our_image):
     cartoon = cv2.bitwise_and(color, color, mask=edges)
     return cartoon
 
-st.title('Image Editing App')
+st.title('CloudScape')
 st.text("Edit your images in a fast and simple way")
 activities = ["Detection", "About"]
 choice = st.sidebar.selectbox("Select Activity", activities)
