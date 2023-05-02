@@ -75,10 +75,10 @@ if choice == "Detection":
     if st.button("Process"):
         if feature_choice == "Cartoonize":
             result_img = cartoonize_image(our_image)
-            st.image(our_image)
+            st.image(result_img)
         elif feature_choice == "Edging":
             result_img = cannanize_image(our_image)
-            st.image(our_image)
+            st.image(result_img)
          
 
 elif choice=="About":
