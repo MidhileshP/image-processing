@@ -74,11 +74,11 @@ if choice == "Detection":
     feature_choice = st.sidebar.selectbox("Find features", tasks)
     if st.button("Process"):
         if feature_choice == "Cartoonize":
-            result_img = cartoonize_image(enhanced_img)
-            st.image(result_img)
+            result_img = cartoonize_image(our_image)
+            st.image(our_image)
         elif feature_choice == "Edging":
-            result_img = cannanize_image(enhanced_img)
-            st.image(result_img)
+            result_img = cannanize_image(our_image)
+            st.image(our_image)
          
 
 elif choice=="About":
