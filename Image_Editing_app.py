@@ -2,8 +2,6 @@ import streamlit as st
 import cv2
 from PIL import Image, ImageEnhance
 import numpy as np
-import os
-from io import BytesIO
 
 def apply_enhancements(our_image, enhance_type):
     img = np.array(our_image.convert("RGB"))
