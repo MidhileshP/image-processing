@@ -85,7 +85,7 @@ elif choice=="About":
                                         Midhilesh
                                         """)
     st.text("""Having trouble with choosing apps for image editing or 
-        having trouble with editing images......""")
+          having trouble with editing images......""")
     clou=Image.open("Aboutfor.jpg")
     st.image(clou)
     st.text("Don't worry! Here we are to help you")
@@ -101,7 +101,7 @@ elif choice=="About":
     )
     st.subheader("Method used to deploy")
     st.text("""
-            First, we created the code and saved it in github
-            Next,We created a account in streamlit community cloud and linked it with our github account
+            First, We created the code and saved it in github
+            Next, We created a account in streamlit community cloud and linked it with our github account
             Finally, Hola we have our website
     """)
